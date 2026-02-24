@@ -435,27 +435,215 @@ def numSubarrayProductLessThanK(nums, k):
 **Time Complexity:** O(n)
 **Space Complexity:** O(1) to O(k) depending on tracking
 
-## 5. Common Array Operations
+## 5. Array/List Methods - Complete Reference
 
-**Sorting:**
+### Adding Elements
 ```python
-arr.sort()              # In-place, O(n log n)
-sorted_arr = sorted(arr) # New array, O(n log n)
+arr = [1, 2, 3]
+
+# Add single element at end
+arr.append(4)                    # [1, 2, 3, 4] - O(1)
+
+# Add multiple elements at end
+arr.extend([5, 6])               # [1, 2, 3, 4, 5, 6] - O(k)
+arr += [7, 8]                    # Same as extend
+
+# Insert at specific index
+arr.insert(0, 0)                 # [0, 1, 2, 3, 4, 5, 6, 7, 8] - O(n)
+arr.insert(2, 1.5)               # Insert 1.5 at index 2 - O(n)
 ```
 
-**Reversing:**
+### Removing Elements
 ```python
-arr.reverse()           # In-place
-arr[::-1]               # New array
+arr = [1, 2, 3, 2, 4, 5]
+
+# Remove by value (first occurrence)
+arr.remove(2)                    # [1, 3, 2, 4, 5] - O(n)
+
+# Remove by index
+value = arr.pop()                # Removes last, returns 5 - O(1)
+value = arr.pop(0)               # Removes first, returns 1 - O(n)
+value = arr.pop(2)               # Removes at index 2 - O(n)
+
+# Delete by index or slice
+del arr[0]                       # Delete first element - O(n)
+del arr[1:3]                     # Delete slice - O(n)
+
+# Clear all elements
+arr.clear()                      # [] - O(n)
+arr = []                         # Alternative
 ```
 
-**Slicing:**
+### Searching & Finding
 ```python
-arr[start:end]          # Elements from start to end-1
-arr[start:]             # From start to end
-arr[:end]               # From beginning to end-1
-arr[::step]             # Every step element
+arr = [10, 20, 30, 40, 20]
+
+# Find index of value
+index = arr.index(20)            # Returns 1 (first occurrence) - O(n)
+index = arr.index(20, 2)         # Search from index 2, returns 4 - O(n)
+
+# Find all indices
+indices = [i for i, x in enumerate(arr) if x == 20]  # [1, 4]
+
+# Check if value exists
+if 20 in arr:                    # True - O(n)
+if 50 not in arr:                # True - O(n)
+
+# Count occurrences
+count = arr.count(20)            # Returns 2 - O(n)
 ```
+
+### Sorting & Reversing
+```python
+arr = [3, 1, 4, 1, 5, 9, 2]
+
+# Sort in-place
+arr.sort()                       # [1, 1, 2, 3, 4, 5, 9] - O(n log n)
+arr.sort(reverse=True)           # [9, 5, 4, 3, 2, 1, 1] - descending
+
+# Sort with key function
+arr.sort(key=lambda x: -x)       # Sort descending
+words.sort(key=len)              # Sort by length
+words.sort(key=str.lower)        # Case-insensitive sort
+
+# Return new sorted array (original unchanged)
+new_arr = sorted(arr)            # O(n log n)
+new_arr = sorted(arr, reverse=True)
+
+# Reverse in-place
+arr.reverse()                    # O(n)
+
+# Return new reversed array
+new_arr = arr[::-1]              # O(n)
+new_arr = list(reversed(arr))    # O(n)
+```
+
+### Copying
+```python
+arr = [1, 2, 3]
+
+# Shallow copy
+copy1 = arr.copy()               # O(n)
+copy2 = arr[:]                   # O(n)
+copy3 = list(arr)                # O(n)
+
+# Deep copy (for nested lists)
+import copy
+deep = copy.deepcopy(arr)        # O(n)
+```
+
+### Slicing
+```python
+arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+# Basic slicing [start:end:step]
+arr[2:5]                         # [2, 3, 4] - from index 2 to 4
+arr[:5]                          # [0, 1, 2, 3, 4] - first 5
+arr[5:]                          # [5, 6, 7, 8, 9] - from index 5
+arr[:]                           # [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] - copy
+
+# Step slicing
+arr[::2]                         # [0, 2, 4, 6, 8] - every 2nd element
+arr[1::2]                        # [1, 3, 5, 7, 9] - odd indices
+arr[::-1]                        # [9, 8, 7, 6, 5, 4, 3, 2, 1, 0] - reverse
+
+# Negative indices
+arr[-1]                          # 9 - last element
+arr[-3:]                         # [7, 8, 9] - last 3 elements
+arr[:-2]                         # [0, 1, 2, 3, 4, 5, 6, 7] - all except last 2
+```
+
+### Other Useful Methods
+```python
+arr = [1, 2, 3, 4, 5]
+
+# Length
+len(arr)                         # 5 - O(1)
+
+# Min/Max
+min(arr)                         # 1 - O(n)
+max(arr)                         # 5 - O(n)
+
+# Sum
+sum(arr)                         # 15 - O(n)
+
+# All/Any
+all([True, True, False])         # False - all elements truthy?
+any([False, False, True])        # True - any element truthy?
+
+# Enumerate (get index and value)
+for i, val in enumerate(arr):
+    print(f"Index {i}: {val}")
+
+# Enumerate with start index
+for i, val in enumerate(arr, start=1):
+    print(f"Position {i}: {val}")
+
+# Zip (combine multiple lists)
+names = ['Alice', 'Bob']
+ages = [25, 30]
+for name, age in zip(names, ages):
+    print(f"{name} is {age}")
+
+# Map (apply function to all elements)
+squares = list(map(lambda x: x**2, arr))  # [1, 4, 9, 16, 25]
+
+# Filter (keep elements matching condition)
+evens = list(filter(lambda x: x % 2 == 0, arr))  # [2, 4]
+```
+
+### List Comprehensions
+```python
+# Basic
+squares = [x**2 for x in range(5)]           # [0, 1, 4, 9, 16]
+
+# With condition
+evens = [x for x in range(10) if x % 2 == 0] # [0, 2, 4, 6, 8]
+
+# With if-else
+result = [x if x > 0 else 0 for x in [-1, 2, -3, 4]]
+
+# Nested
+matrix = [[i*j for j in range(3)] for i in range(3)]
+
+# Flatten 2D list
+flat = [item for sublist in matrix for item in sublist]
+```
+
+### Creating Arrays
+```python
+# Empty array
+arr = []
+
+# With initial values
+arr = [1, 2, 3, 4, 5]
+
+# Repeated values
+arr = [0] * 5                    # [0, 0, 0, 0, 0]
+
+# Range
+arr = list(range(5))             # [0, 1, 2, 3, 4]
+arr = list(range(1, 6))          # [1, 2, 3, 4, 5]
+arr = list(range(0, 10, 2))      # [0, 2, 4, 6, 8]
+
+# 2D array
+matrix = [[0] * 3 for _ in range(3)]  # 3x3 matrix
+# DON'T use: [[0] * 3] * 3 (creates shallow copies!)
+```
+
+### Time Complexity Summary
+| Operation | Time Complexity |
+|-----------|----------------|
+| Access by index | O(1) |
+| Search by value | O(n) |
+| Append | O(1) |
+| Insert at beginning | O(n) |
+| Insert at end | O(1) |
+| Delete at beginning | O(n) |
+| Delete at end | O(1) |
+| Sort | O(n log n) |
+| Reverse | O(n) |
+| Copy | O(n) |
 
 ## 6. Key Patterns
 
@@ -464,3 +652,259 @@ arr[::step]             # Every step element
 **Sorting required:** Two pointers often works
 **Frequency counting:** Hash map
 **Multiple passes allowed:** Simplifies logic
+
+---
+
+# Additional Concepts
+
+## Infinity in Python
+
+**Usage:**
+```python
+positive_inf = float("inf")   # Positive infinity (∞)
+negative_inf = float("-inf")  # Negative infinity (-∞)
+```
+
+**When to use:**
+- Finding minimum: initialize with `float("inf")`
+- Finding maximum: initialize with `float("-inf")`
+- When you don't know the initial value
+
+**Example:**
+```python
+# Finding minimum
+min_val = float("inf")
+for num in [5, 2, 8, 1]:
+    min_val = min(min_val, num)  # min_val = 1
+
+# Finding maximum
+max_val = float("-inf")
+for num in [5, 2, 8, 1]:
+    max_val = max(max_val, num)  # max_val = 8
+```
+
+**Properties:**
+```python
+float("inf") > any_number      # True
+float("-inf") < any_number     # True
+float("inf") + 1 == float("inf")  # True
+float("inf") == float("inf")  # True
+```
+
+**Alternative (often better):**
+```python
+# Instead of infinity, use first element
+min_val = arr[0]
+max_val = arr[0]
+```
+
+## Stock Buy/Sell Problem - Solution Comparison
+
+**Problem:** Find max profit from buying and selling stock once.
+
+**Optimal Solution (Recommended):**
+```python
+def maxProfit(prices):
+    # Time: O(n), Space: O(1)
+    min_soFar = prices[0]
+    res = 0
+    
+    for i in range(1, len(prices)):
+        min_soFar = min(min_soFar, prices[i])
+        res = max(res, prices[i] - min_soFar)
+    
+    return res
+```
+**Why it's optimal:**
+- ✅ Only 2 variables (minimal space)
+- ✅ Single pass from index 1 (efficient)
+- ✅ Clean, readable logic
+- ✅ O(n) time, O(1) space - can't do better
+
+**Alternative 1: With infinity initialization**
+```python
+def maxProfit(prices):
+    buy = float("inf")
+    profit = 0
+    
+    for price in prices:
+        buy = min(buy, price)
+        profit = max(profit, price - buy)
+    
+    return profit
+```
+**Issues:**
+- ❌ Unnecessary infinity initialization
+- ❌ Iterates from index 0 (redundant first check)
+
+**Alternative 2: Verbose version**
+```python
+def maxProfit(prices):
+    if len(prices) < 2:
+        return 0
+    
+    min_price = prices[0]
+    max_profit = 0
+    
+    for price in prices:
+        if price < min_price:
+            min_price = price
+        else:
+            profit = price - min_price
+            if profit > max_profit:
+                max_profit = profit
+    
+    return max_profit
+```
+**Issues:**
+- ❌ Extra `profit` variable in loop
+- ❌ Unnecessary edge case check
+- ❌ More verbose if-else logic
+
+**Alternative 3: Overcomplicated (DON'T USE)**
+```python
+def maxProfit(prices):
+    buy = float("inf")
+    sell = float("-inf")
+    profit = 0
+    
+    for p in prices:
+        if p < buy:
+            buy = sell = p
+            continue
+        if p > sell:
+            sell = p
+            profit = max(profit, sell - buy)
+    
+    return profit
+```
+**Issues:**
+- ❌ 3 variables instead of 2
+- ❌ Unnecessary `sell` tracking
+- ❌ Complex logic with `continue`
+- ❌ Harder to understand
+
+**Key Takeaway:** Simpler is better. The optimal solution uses minimal variables and clean logic.
+
+## Python-Specific Concepts
+
+### if __name__ == "__main__":
+
+Checks whether a script is being run directly or imported as a module.
+
+**How it works:**
+- `__name__` is a special built-in variable
+- When you run a file directly: `__name__ == "__main__"`
+- When you import a file: `__name__` == module name
+
+**Why use it:**
+Prevents unnecessary code execution when importing. Saves compute power by running code only when needed.
+
+**Without the check - wastes compute:**
+```python
+class Twosum():
+    def twosum(self, nums, target):
+        return [0, 1]
+
+nums = [3,5,1,2,4,5,6]  # Runs on import!
+print(s.twosum(nums, target))  # Executes on import!
+```
+
+**With the check - efficient:**
+```python
+class Twosum():
+    def twosum(self, nums, target):
+        return [0, 1]
+
+if __name__ == "__main__":
+    nums = [3,5,1,2,4,5,6]  # Only runs when executed directly
+    print(s.twosum(nums, target))  # Only runs when executed directly
+```
+
+**What "runs on import" means:**
+
+If you have `file1.py`:
+```python
+class Twosum():
+    def twosum(self, nums, target):
+        return [0, 1]
+
+print("This prints!")  # Executes when imported
+```
+
+And in `file2.py`:
+```python
+from file1 import Twosum  # "This prints!" appears here
+```
+
+With `if __name__ == "__main__":`, the print only runs when you execute `file1.py` directly, not when importing.
+
+### Arrays vs Lists in Python
+
+In Python, **arrays and lists are the same thing**:
+```python
+arr = [1, 2, 3]  # This is a list
+lst = [1, 2, 3]  # Same thing
+```
+
+All methods (append, extend, insert, remove, pop, sort, etc.) work on Python lists.
+
+**Note:** `array.array` from the array module exists for typed arrays but is rarely used.
+
+### Getting Index from Value
+
+```python
+arr = [10, 20, 30, 40, 20]
+
+# Method 1: index() - returns first occurrence
+index = arr.index(20)  # Returns 1, O(n)
+
+# Method 2: index() with start position
+index = arr.index(20, 2)  # Search from index 2, returns 4
+
+# Method 3: Find all indices
+indices = [i for i, x in enumerate(arr) if x == 20]  # [1, 4]
+
+# Method 4: Check if exists first (avoid ValueError)
+if 20 in arr:
+    index = arr.index(20)
+else:
+    print("Value not found")
+
+# Method 5: Try-except
+try:
+    index = arr.index(20)
+except ValueError:
+    print("Value not found")
+```
+
+**Common error:**
+```python
+prices.index(sell_day_price)  # ValueError if value doesn't exist!
+```
+
+**Always check existence first or use try-except.**
+
+### Memory Optimization Myths
+
+**Myth:** More code = less memory
+
+**Reality:** Variable count matters, not code length.
+
+```python
+# Solution 1: 2 variables - O(1) space
+min_soFar = prices[0]
+res = 0
+
+# Solution 2: 3 variables - O(1) space (but worse)
+buy = float("inf")
+sell = float("-inf")
+profit = 0
+```
+
+Both are O(1), but Solution 1 is better because:
+- Fewer variables
+- Simpler logic
+- More readable
+
+**Key principle:** Optimize for clarity first, then performance. Don't sacrifice readability for negligible gains.
