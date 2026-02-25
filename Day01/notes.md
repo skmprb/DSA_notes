@@ -552,6 +552,36 @@ arr[-1]                          # 9 - last element
 arr[-3:]                         # [7, 8, 9] - last 3 elements
 arr[:-2]                         # [0, 1, 2, 3, 4, 5, 6, 7] - all except last 2
 ```
+### Slicing out a single element (keep left and right)
+
+Remove the element at index i and preserve the elements to its left and right.
+
+- Create a new list (non-destructive):
+```python
+arr = [0,1,2,3,4]
+i = 2
+new = arr[:i] + arr[i+1:]  # [0, 1, 3, 4]
+```
+
+- In-place removal:
+```python
+arr = [0,1,2,3,4]
+i = 2
+del arr[i]    # arr -> [0, 1, 3, 4]
+# or
+arr.pop(i)    # returns removed element, arr -> [0, 1, 3, 4]
+```
+
+- By value (first occurrence) with comprehension:
+```python
+val = 2
+new = [x for x in arr if x != val]  # removes all occurrences of val
+```
+
+Notes:
+- Slicing (+) creates a new list (O(n)).
+- del/pop modify the list in-place (O(n) for shifting).
+- Use list comprehension to remove by predicate or value.
 
 ### Other Useful Methods
 ```python
