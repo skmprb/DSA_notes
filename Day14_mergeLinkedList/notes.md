@@ -2,8 +2,54 @@
 
 ## Problem 1: Merge Two Sorted Lists
 
-### Problem
-Merge two sorted linked lists into one sorted list
+### Problem Statement
+**Input:** `list1 = [1,2,4]`, `list2 = [1,3,4]`
+**Output:** `[1,1,2,3,4,4]`
+
+### Pseudocode
+```
+FUNCTION mergeTwoLists(list1, list2):
+    CREATE dummy = ListNode(0)
+    SET current = dummy
+    
+    WHILE list1 is not None AND list2 is not None:
+        IF list1.val < list2.val:
+            ATTACH current.next = list1
+            MOVE list1 = list1.next
+        ELSE:
+            ATTACH current.next = list2
+            MOVE list2 = list2.next
+        MOVE current = current.next
+    
+    APPEND remaining: current.next = list1 OR list2
+    RETURN dummy.next
+```
+
+### Flow Diagram
+```
+Start
+  |
+  v
+Create dummy node
+  |
+  v
+Both lists have nodes? --NO--> Append remaining
+  |                              Return dummy.next
+  YES                            (END)
+  |
+  v
+Compare list1.val vs list2.val
+  |
+  +--list1 < list2--> Attach list1, move list1
+  |                   |
+  +--list2 <= list1-> Attach list2, move list2
+  |
+  v
+Move current pointer
+  |
+  v
+(Loop back to "Both lists have nodes?")
+```
 
 ### Iterative Approach (Preferred)
 ```python
@@ -50,6 +96,62 @@ def mergeTwoLists(list1, list2):
 ---
 
 ## Problem 2: Merge K Sorted Lists
+
+### Problem Statement
+**Input:** `lists = [[1,4,5],[1,3,4],[2,6]]`
+**Output:** `[1,1,2,3,4,4,5,6]`
+
+### Pseudocode (Divide & Conquer)
+```
+FUNCTION mergeKLists(lists):
+    IF lists is empty:
+        RETURN None
+    IF lists has only 1 element:
+        RETURN lists[0]
+    
+    CALCULATE mid = length of lists / 2
+    RECURSIVELY merge left = mergeKLists(lists[0:mid])
+    RECURSIVELY merge right = mergeKLists(lists[mid:])
+    
+    RETURN mergeTwoLists(left, right)
+```
+
+### Flow Diagram (Divide & Conquer)
+```
+Start: lists = [L1, L2, L3, L4]
+  |
+  v
+Is lists empty? --YES--> Return None
+  |                       (END)
+  NO
+  |
+  v
+Is lists size 1? --YES--> Return lists[0]
+  |                        (END)
+  NO
+  |
+  v
+Split at mid
+  |
+  +--Left: [L1, L2]
+  |
+  +--Right: [L3, L4]
+  |
+  v
+Recurse on left half
+  |
+  v
+Recurse on right half
+  |
+  v
+Merge left and right results
+  |
+  v
+Return merged list
+  |
+  v
+END
+```
 
 ### Approach 1: Divide & Conquer (Best)
 ```python

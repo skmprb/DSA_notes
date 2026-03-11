@@ -19,6 +19,53 @@ class ListNode:
 
 ## Problem 1: Reverse Linked List
 
+### Problem Statement
+**Input:** `1 → 2 → 3 → 4 → 5 → None`
+**Output:** `5 → 4 → 3 → 2 → 1 → None`
+
+### Pseudocode
+```
+FUNCTION reverseList(head):
+    SET prev = None
+    SET current = head
+    
+    WHILE current is not None:
+        SAVE next_node = current.next
+        REVERSE current.next = prev
+        MOVE prev = current
+        MOVE current = next_node
+    
+    RETURN prev (new head)
+```
+
+### Flow Diagram
+```
+Start
+  |
+  v
+Initialize: prev=None, current=head
+  |
+  v
+Is current None? --YES--> Return prev
+  |                         (END)
+  NO
+  |
+  v
+Save next_node = current.next
+  |
+  v
+Reverse: current.next = prev
+  |
+  v
+Move: prev = current
+  |
+  v
+Move: current = next_node
+  |
+  v
+(Loop back to "Is current None?")
+```
+
 ### Iterative Approach (Preferred)
 ```python
 def reverseList(head):
@@ -63,6 +110,53 @@ def reverseListRecursive(head):
 ---
 
 ## Problem 2: Linked List Cycle Detection
+
+### Problem Statement
+**Input:** Linked list (may or may not have cycle)
+**Output:** `True` if cycle exists, `False` otherwise
+
+### Pseudocode
+```
+FUNCTION hasCycle(head):
+    SET slow = head
+    SET fast = head
+    
+    WHILE fast is not None AND fast.next is not None:
+        MOVE slow = slow.next (1 step)
+        MOVE fast = fast.next.next (2 steps)
+        
+        IF slow == fast:
+            RETURN True (cycle detected)
+    
+    RETURN False (no cycle)
+```
+
+### Flow Diagram
+```
+Start
+  |
+  v
+Initialize: slow=head, fast=head
+  |
+  v
+Is fast None OR fast.next None? --YES--> Return False
+  |                                        (No cycle)
+  NO
+  |
+  v
+Move slow 1 step
+  |
+  v
+Move fast 2 steps
+  |
+  v
+Does slow == fast? --YES--> Return True
+  |                          (Cycle found)
+  NO
+  |
+  v
+(Loop back to "Is fast None?")
+```
 
 ### Floyd's Cycle Detection (Tortoise & Hare)
 ```python

@@ -2,8 +2,59 @@
 
 ## Problem 1: Remove Nth Node From End
 
-### Problem
-Remove the nth node from the end of a linked list in one pass
+### Problem Statement
+**Input:** `head = [1,2,3,4,5]`, `n = 2`
+**Output:** `[1,2,3,5]` (removed 4, which is 2nd from end)
+
+### Pseudocode
+```
+FUNCTION removeNthFromEnd(head, n):
+    CREATE dummy = ListNode(0)
+    SET dummy.next = head
+    SET fast = dummy
+    SET slow = dummy
+    
+    // Create gap of n+1
+    FOR i = 0 to n:
+        MOVE fast = fast.next
+    
+    // Move both until fast reaches end
+    WHILE fast is not None:
+        MOVE fast = fast.next
+        MOVE slow = slow.next
+    
+    // Remove node
+    SET slow.next = slow.next.next
+    RETURN dummy.next
+```
+
+### Flow Diagram
+```
+Start
+  |
+  v
+Create dummy, point to head
+  |
+  v
+Initialize: fast=dummy, slow=dummy
+  |
+  v
+Move fast n+1 steps ahead
+  |
+  v
+Is fast None? --NO--> Move both fast & slow
+  |                   Loop back
+  YES
+  |
+  v
+Remove: slow.next = slow.next.next
+  |
+  v
+Return dummy.next
+  |
+  v
+END
+```
 
 ### Two Pointer Gap Method (Optimal)
 ```python
@@ -55,8 +106,82 @@ Result: 1 → 2 → 3 → 5
 
 ## Problem 2: Reorder List
 
-### Problem
-Transform: `1→2→3→4→5` into `1→5→2→4→3`
+### Problem Statement
+**Input:** `head = [1,2,3,4,5]`
+**Output:** `[1,5,2,4,3]`
+**Pattern:** L0 → Ln → L1 → Ln-1 → L2 → Ln-2 ...
+
+### Pseudocode
+```
+FUNCTION reorderList(head):
+    IF head is None OR head.next is None:
+        RETURN
+    
+    // Step 1: Find middle
+    SET slow = head, fast = head
+    WHILE fast.next AND fast.next.next:
+        MOVE slow = slow.next
+        MOVE fast = fast.next.next
+    
+    // Step 2: Reverse second half
+    SET second = slow.next
+    SET slow.next = None
+    SET prev = None
+    WHILE second is not None:
+        SAVE next_node = second.next
+        REVERSE second.next = prev
+        MOVE prev = second
+        MOVE second = next_node
+    
+    // Step 3: Merge alternately
+    SET first = head, second = prev
+    WHILE second is not None:
+        SAVE temp1 = first.next
+        SAVE temp2 = second.next
+        CONNECT first.next = second
+        CONNECT second.next = temp1
+        MOVE first = temp1
+        MOVE second = temp2
+```
+
+### Flow Diagram
+```
+Start
+  |
+  v
+Edge case check
+  |
+  v
+[STEP 1: Find Middle]
+Use slow/fast pointers
+  |
+  v
+Split list at middle
+  |
+  v
+[STEP 2: Reverse Second Half]
+Use prev/current/next
+  |
+  v
+Second half reversed
+  |
+  v
+[STEP 3: Merge Alternately]
+Weave first and second
+  |
+  +--Take from first
+  |
+  +--Take from second
+  |
+  v
+Repeat until second exhausted
+  |
+  v
+List reordered in-place
+  |
+  v
+END
+```
 
 ### Three-Step Pattern (Optimal)
 ```python
